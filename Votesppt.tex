@@ -1,0 +1,660 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+\newcolumntype{.}{D{.}{.}{-1}}
+
+\usetheme{CambridgeUS}
+\usecolortheme{dolphin}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                                   
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\title{Analysis of the Spoilt Votes in Kenya's 2013 Presidential Elections
+\\By
+\\Herman Githinji Mwangi}
+\author{www.github.com/jojherman}
+\institute[]{Junior Researcher\\Berlin, Germany}
+\date{October, 2023}
+
+\usepackage{Sweave}
+\begin{document}
+\input{Votesppt-concordance}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Abstract}
+
+
+\begin{frame}{Abstract}
+  This study explores factors influencing spoilt votes in Kenyan constituencies during the 2013 presidential elections. The total number of spoilt votes were \textbf{108,700}. It addresses a knowledge gap of how registered voters (\textbf{14,292,665}), cast votes (\textbf{12,277,194}), voting patterns (\textbf{'Landslide' or 'Close Race'}) influence the number of spoilt votes as well as the implications of the spoilt votes on constituency development fund (CDF) allocation (\textbf{KES: 138,756,668,232.21}). This data represents \textbf{289} out of the total 291 constituencies. The primary goal is to unveil these factors' impact on spoilt vote numbers, the effect of spoilt votes on CDF allocation, with broader implications for election integrity and policy in Kenya. The study employs quantitative analysis, focusing on linear regression, to provide empirical evidence. In conclusion, it contributes vital insights to election dynamics and the Kenyan electoral landscape.
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Introduction}
+
+This study aims to contribute to a better understanding of the Kenyan electoral landscape and provide data-driven recommendations for policymakers to bolster the integrity of future elections in the country. 
+
+These factors play a crucial role in shaping the electoral landscape, as they can impact the overall integrity of the election process. Additionally, the study explains the reciprocal relationship between spoilt votes and the allocation of Constituency Development Funds (CDF), exploring how this allocation is affected by the number of spoilt votes. The study's findings have broader implications for election integrity and policy in Kenya.
+
+This study adopts a quantitative approach, employing the tools of statistical analysis, particularly focusing on linear regression. By utilizing quantitative methods, the research aims to provide empirical evidence that can help policymakers, election authorities, and stakeholders make informed decisions and implement measures to enhance the fairness and credibility of future elections in Kenya.
+\end{frame}
+
+\subsection{Background}
+
+\begin{frame}{Background to the Study}
+In the 2013 Kenyan presidential election, Uhuru Kenyatta emerged as the winner with \textbf{50.07 percent} of the vote, securing a first-round victory. Notably, the election witnessed an exceptionally high voter turnout, with \textbf{85.86 percent} of registered voters actively participating. Out of a total of 12,330,028 votes cast, 108,975 were deemed invalid, resulting in a spoilt vote percentage of roughly \textbf{0.88 percent}. These statistics reveal only \textbf{33.34 percent} of the total population registered as voters, underscoring the significance and democratic vitality of this pivotal election.
+\end{frame}
+
+\subsection{Election Information Summary}
+\begin{frame}{Key election information}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\begin{table}
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Variable} & \textbf{Value} \\
+\hline
+Cast Votes & 12,330,028 \\
+Valid Votes & 12,221,053 \\
+Invalid Votes & 108,975 \\
+Registered Voters & 14,352,533 \\
+Population (July 2012 est.) & 43,013,341 \\
+Voter Turnout & Approximately 85.86\% \\
+Spoilt Vote Percentage & Approximately 0.88\% \\
+Registered Voter Percentage & Approximately 33.34\% \\
+CLOSE RACE & 55 constituencies \\
+LANDSLIDE & 234 constituencies \\
+CDF Allocation (2013-2017) & KES 138,756,668,232.21 \\
+\hline
+\end{tabular}
+\caption{Key Data Points}
+\end{table}
+\end{columns}
+\end{frame}
+
+\subsection{Objectives}
+
+\begin{frame}{Study Objectives}
+\begin{itemize}
+\item Summarize variables, including Spoilt votes, Registered voters, Cast votes, and CDF Allocation
+\item Analyze the correlations between these variables to understand their relationships
+\item Identify disparities in voter registration and participation and provide potential recommendations for democratic representation and the electoral process.
+\end{itemize}
+
+\end{frame}
+
+
+\subsection{Summary Statistics}
+
+
+\begin{frame}[fragile]{Summary of data}
+Summary of Spoilt, Registered, Cast, and Allocation respectively.
+ \\
+\begin{Schunk}
+\begin{Soutput}
+|Variable   |       Min|    Median|         Mean|       Max|
+|:----------|---------:|---------:|------------:|---------:|
+|Spoilt     |         0|       344| 3.761246e+02|      1253|
+|Registered |     10574|     44489| 4.945559e+04|    133279|
+|Cast       |      8718|     37917| 4.248164e+04|    110828|
+|Allocation | 415636890| 474971364| 4.801269e+08| 682170481|
+\end{Soutput}
+\end{Schunk}
+\end{frame}
+
+\section{Descriptive Analysis}
+\subsection{Graphical Representation of data}
+
+\begin{frame}{Density Plot}
+Density plots are useful for visualizing the distribution and shape of a continuous variable, showing where the data is concentrated and how it is spread across different values.The probability density function of a continuous random variable describes how the probability of observing a specific value is distributed across the variable. The probability of obtaining the constituency with the highest frequency number of spoilt votes was approximately \textbf {0.0020} as shown
+\end{frame}
+
+\begin{frame}[fragile]{Density Plot for Spoilt Votes}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-003}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Histograms}
+Histograms are a graphical representation commonly used to display the distribution of a data variable and its corresponding frequency or count of observations within different intervals. Histograms are valuable for exploring and summarizing data, identifying central tendencies (such as modes and medians), detecting outliers, and assessing the spread or variation of the data as shown
+\end{frame}
+
+\begin{frame}{Histogram of spoilt votes}
+The histogram in the next slide represents the distribution of the \textbf {Spoilt Votes} in the dataset. The x-axis ranges from 0 to 1200, divided into intervals of 100, and represents the Spoilt votes. The y-axis ranges from 0 to 60, divided into intervals of 10, and represents the frequency of these values.
+\end{frame}
+
+\begin{frame}[fragile]{Frequency Distribution of Spoilt Votes}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-004}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Histogram of spoilt votes}
+\begin{itemize}
+\item From the histogram, we can observe that:
+\item The majority of the Spoilt Votes fall within the range of \textbf{300 to 400}.
+\item The percentage of Spoilt Votes that fall within the 300-400 range is approximately \textbf{19.378 percent of the total Spoilt votes}.
+\item The frequency count for Spoilt Votes falling within the range of 300 to 400 is \textbf{56}. This means there are 56 instances in the dataset where the Spoilt votes are between 300 and 400.
+\item The skewness of the Spoilt Votes is approximately \textbf{0.90}.
+\end{itemize}
+This value indicates a moderate positive skew, which means the distribution of Spoilt votes is \textbf{skewed to the right}.
+\end{frame}
+
+\begin{frame}[fragile]{Histogram of Allocated CDF funds}
+The histogram in the next slide represents the distribution of the Allocation of CDF funds in the dataset. The x-axis ranges from 400 million to 700 million, divided into intervals of 21.5 million, and represents the Allocation values. The y-axis ranges from 0 to the maximum frequency count 85 distributed in intervals of 10
+\end{frame}
+
+\begin{frame}[fragile]{Frequency Distribution of Allocation}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-005}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Histogram of Allocation Values}
+From the histogram, we can observe that:
+\begin{itemize}
+\item The majority of the Allocated finds fall within the range of \textbf{464.5 million to 486 million}.
+\item The percentage of Allocation values that fall within the 464.5 million to 486 million range is approximately \textbf{29.41 percent} of the total "Allocation" values.
+\item The frequency count for Allocation values falling within the range of 464.5 million to 486 million is \textbf{85}. This means there are 85 instances in the dataset where the Allocation values are between 464.5 million and 486 million.
+\item The skewness of the Allocation values is approximately \textbf{1.45}.
+\end{itemize}
+This value indicates a moderate positive skew, which means the distribution of Allocation values is \textbf{skewed to the right}.
+\end{frame}
+
+\begin{frame}[fragile]{Histogram of Cast Votes}
+The histogram in the next slide represents the distribution of the Cast votes in the dataset. The x-axis ranges from 0 to 120,000, divided into intervals of 10,000, and represents the Cast votes. The y-axis ranges from 0 to the maximum frequency count 84
+\end{frame}
+
+\begin{frame}[fragile]{Frequency Distribution of Cast Votes}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-006}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Histogram of Cast Values}
+From the histogram, we can observe that:
+\begin{itemize}
+\item The majority of the Cast votes fall within the range of \textbf{30,000 to 40,000}.
+\item The percentage of Cast votes that fall within the 30,000 to 40,000 range is approximately \textbf{29.07 percent} of the total Cast votes.
+\item The frequency count for Cast votes falling within the range of 30,000 to 40,000 is \textbf{84}. This means there are 84 instances in the dataset where the Cast votes are between 30,000 and 40,000.
+\item The skewness of the Cast votes is approximately \textbf{0.84}.
+\end{itemize}
+This value indicates a moderate positive skew, which means the distribution of Cast votes is \textbf{skewed to the right}.
+\end{frame}
+
+\begin{frame}[fragile]{Histogram of Registered Voters}
+The histogram in the next slide represents the distribution of the Registered voters in the dataset. The x-axis ranges from 0 to 140,000, divided into intervals of 10,000, and represents the Registered voters. The y-axis ranges from 0 to the maximum frequency count 66
+\end{frame}
+
+\begin{frame}[fragile]{Frequency Distribution of Registered voters}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-007}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Histogram of Registered Voters}
+From the histogram, 
+\begin{itemize}
+\item The majority of the Registered voters fall within the range of \textbf{30,000 to 40,000}.
+\item The percentage of Registered voters that fall within the 30,000 to 40,000 range is approximately \textbf{22.84 percent} of the total Registered voters.
+\item The frequency count for Registered voters falling within the range of 30,000 to 40,000 is \textbf{66}. This means there are 66 instances in the dataset where the Registered voters are between 30,000 and 40,000.
+\item The skewness of the Registered voters is approximately \textbf{0.96}.
+\end{itemize}
+This value indicates a moderate positive skew, which means the distribution of Registered voters is \textbf{skewed to the right}.
+\end{frame}
+
+\subsection{Voting Pattern}
+
+\begin{frame}{Distribution of Voting Pattern}
+
+The data shows two distinct voting patterns:
+
+\begin{itemize}
+\item CLOSE RACE: Elections were fiercely competitive, with a narrow margin of victory. Outcomes were uncertain.
+
+\item LANDSLIDE: one choice dominated, securing a decisive and one-sided victory.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Pie Chart of the voting pattern}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-008}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Bar graph of voting pattern}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-009}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Pattern Counts}
+Voting pattern counts for "CLOSE RACE" and "LANDSLIDE" 
+\begin{columns}[c] % Center the columns
+\column{.5\textwidth} % Left column
+\begin{Schunk}
+\begin{Soutput}
+|Pattern    | Count|
+|:----------|-----:|
+|CLOSE RACE |    55|
+|LANDSLIDE  |   234|
+\end{Soutput}
+\end{Schunk}
+\end{columns}
+\end{frame}
+
+\subsection{More on Pattern Variable}
+
+\begin{frame}
+  \centering
+  \includegraphics[width=.8\textwidth]{C:/Users/githi/Downloads/chart-1 (1)}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \includegraphics[width=.8\textwidth]{C:/Users/githi/Downloads/chart-2 (1)}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \includegraphics[width=.8\textwidth]{C:/Users/githi/Downloads/chart-3}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \includegraphics[width=.8\textwidth]{C:/Users/githi/Downloads/chart-4 (2)}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \includegraphics[width=.8\textwidth]{C:/Users/githi/Downloads/chart-5 (1)}
+\end{frame}
+
+
+
+\subsection{Box Plot}
+
+\begin{frame}{Voting Pattern Distribution}
+The box plot in the next slide shows the distribution of the number of spoiled votes in each category of election result pattern. The line in the middle of each box represents the median of the data, while the box itself represents the interquartile range (from the first quartile to the third quartile). The whiskers represent the range of the data within 1.5 times the interquartile range, and any points outside of this range are considered outliers and are represented as individual points.
+From this plot, we can see that the distribution of spoiled votes varies between different election result patterns.
+\end{frame}
+
+\begin{frame}[fragile]{Close Vs Landslide box Plot}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-011}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Plot interpretation}
+The box plot provides a visual representation of the relationship between the number of spoiled votes and the pattern of the election result.
+From the plot, we can observe the following:
+\begin{itemize}
+\item \textbf{LANDSLIDE pattern:}, the number of spoiled votes varies widely, as indicated by the length of the box and the whiskers. The median number of spoiled votes (represented by the line in the middle of the box) is relatively high, suggesting that in constituencies where the election result was a landslide, there tends to be a higher number of spoiled votes.
+\item \textbf{CLOSE RACE pattern:}, the number of spoiled votes also varies, but the range is narrower than for the "LANDSLIDE" pattern. The median number of spoiled votes is lower, suggesting that in constituencies where the election result was a close race, there tends to be a lower number of spoiled votes.
+\end{itemize}
+\end{frame}
+
+\subsection{Pairwise scatter Plots}
+
+
+\begin{frame}[fragile]{Correlation Plots}
+\begin{columns}
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-012}
+\end{columns}
+\end{frame}
+
+\subsection{Correlation Coefficients}
+
+\begin{frame}{Correlation}
+As shown in the scatter plots, some variables are related directionally either positively or negatively. The correlation coefficients indicate the strength and direction of these relationships. Positive values suggest a direct (positive) relationship, where both variables tend to move in the same direction. Negative values indicate an inverse (negative) relationship, where the variables tend to move in opposite directions. The closer the correlation coefficient is to -1 or 1, the stronger the relationship.
+\end{frame}
+
+\subsection{Matrix}
+
+\begin{frame}[fragile]
+\frametitle{Correlation Matrix}
+\begin{Schunk}
+\begin{Soutput}
+|           |  Spoilt| Registered|    Cast| Allocation|
+|:----------|-------:|----------:|-------:|----------:|
+|Spoilt     |  1.0000|     0.7168|  0.6795|    -0.2077|
+|Registered |  0.7168|     1.0000|  0.9808|    -0.3251|
+|Cast       |  0.6795|     0.9808|  1.0000|    -0.3431|
+|Allocation | -0.2077|    -0.3251| -0.3431|     1.0000|
+\end{Soutput}
+\end{Schunk}
+\end{frame}
+
+\begin{frame}{Correlation Matrix - Part 1}
+\begin{itemize}
+\item \textbf{Spoilt vs. Registered}: There is a moderately positive relationship (correlation coefficient of \textbf{0.7168}) between Spoilt and Registered. As the number of Registered voters increases, the number of Spoilt votes tends to increase, indicating that higher voter registration may lead to more Spoilt votes.
+\item \textbf{Spoilt vs. Cast}: Similar to the relationship with Registered, there is also a moderately positive relationship (correlation coefficient of \textbf{0.6795}) between Spoilt and Cast. This suggests that as the number of votes Cast increases, the number of Spoilt votes tends to increase as well.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Correlation Matrix - Part 2}
+\begin{itemize}
+\item \textbf{Spoilt vs. Allocation}: There is a weak negative relationship (correlation coefficient of \textbf{-0.2077}) between Spoilt and Allocation. As Allocation increases, the number of Spoilt votes tends to decrease slightly, indicating a slight inverse relationship.
+\item \textbf{Registered vs. Cast}: There is a very strong positive relationship (correlation coefficient of \textbf{0.9808}) between Registered and Cast. This means that as the number of Registered voters increases, the number of votes Cast also significantly increases.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Correlation Matrix - Part 3}
+\begin{itemize}
+\item \textbf{Registered vs. Allocation}: There is a moderately negative relationship (correlation coefficient of \textbf{-0.3251}) between Registered and Allocation. As Allocation increases, the number of Registered voters tends to decrease.
+\item \textbf{Cast vs. Allocation}: There is also a moderately negative relationship (correlation coefficient of \textbf{-0.3431}) between Cast and Allocation. As Allocation increases, the number of votes Cast tends to decrease.
+\end{itemize}
+\end{frame}
+
+
+\section{Exploratory Analysis}
+\subsection{Linear Regression}
+
+
+\begin{frame}{Linear Regression Model}
+The \texttt{lm} function provides a comprehensive analysis of the relationship between the response variable, 'Spoilt votes' (Y), and the predictor variables: 'Registered Voters' (X1), 'Cast Votes' (X2), 'Voting Patterns' (X3), and 'CDF Allocation' (X4).
+
+\[
+\alert{Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3X_3 + \beta_4X_4 + \epsilon}
+\]
+
+Where:
+\end{frame}
+\begin{frame}{Linear Regression Model}
+\begin{itemize}
+\item \alert{Y}: Response variable (Spoilt votes)
+\item \alert{X1}: Number of registered voters
+\item \alert{X2}: Number of cast votes
+\item \alert{X3}: Voting patterns per constituency (Close race or landslide)
+\item \alert{X4}: Allocation of CDF Funds per constituency
+\item \alert{$\beta_0, \beta_1, \beta_2, \beta_3, \beta_4$}: Represent coefficients of respective explanatory variables on the response variable, and $\epsilon$ represents the error term
+\end{itemize}
+\end{frame}
+
+\subsection{Data variables}
+
+
+\begin{frame}[fragile]{Data Variables}
+  \begin{table}
+    \centering
+    \small
+    \begin{tabular}{|p{0.2\textwidth}|p{0.6\textwidth}|}
+      \hline
+      \textbf{Variable} & \textbf{Description} \\
+      \hline
+      $Y$ & Represents Spoilt votes (invalid) \\
+      \hline
+      $X1$ & Represents Registered Voters \\
+      \hline
+      $X2$ & Represents Cast votes \\
+      \hline
+      $X3$ & Represents Voting Patterns per constituency (Close race or landslide) \\
+      \hline
+      $X4$ & Represents Allocation of CDF Funds per constituency \\
+      \hline
+    \end{tabular}
+  \end{table}
+\end{frame}
+
+
+\begin{frame}{Hypothesis Testing}
+The hypothesis testing will help us determine whether any of the predictor variables have a statistically significant impact on the number of Spoilt votes in the linear regression model.
+\end{frame}
+
+\begin{frame}{Hypothesis Testing}
+\textbf{Null Hypothesis (H0)}. There is no significant relationship between the number of Spoilt votes and the predictor variables, including the number of Registered Voters, Cast Votes, Voting Patterns, and CDF Allocation. In mathematical terms, this can be expressed as H0: $\beta_0 = \beta_1 = \beta_2 = \beta_3 = \beta_4$ = 0.\\
+\textbf{Alternate Hypothesis (H1)}. There is a significant relationship between the number of Spoilt votes and at least one of the predictor variables, including the number of Registered Voters, Cast Votes, Voting Patterns, and CDF Allocation. In mathematical terms, this can be expressed as H1: At least one of $\beta_0, \beta_1, \beta_2, \beta_3, \beta_4$ is not 0.
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{Schunk}
+\begin{Soutput}
+===============================================
+                        Dependent variable:    
+                    ---------------------------
+                                 Y             
+-----------------------------------------------
+X1                       0.013*** (0.002)      
+X2                       -0.007** (0.003)      
+X3LANDSLIDE             -64.158** (24.834)     
+X4                       0.00000 (0.00000)     
+Constant                 13.808 (140.393)      
+-----------------------------------------------
+Observations                    289            
+R2                             0.539           
+Adjusted R2                    0.533           
+Residual Std. Error     163.304 (df = 284)     
+F Statistic           83.178*** (df = 4; 284)  
+===============================================
+Note:               *p<0.1; **p<0.05; ***p<0.01
+\end{Soutput}
+\end{Schunk}
+\end{frame}
+
+\begin{frame}[fragile]{Confidence Level Percentage}
+Confidence intervals for the linear regression model, Lower CI:2.5 vs Upper CI 97.5 percent
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\begin{Schunk}
+\begin{Soutput}
+|Variable    |Lower CI      |Upper CI      |
+|:-----------|:-------------|:-------------|
+|(Intercept) |-2.625348e+02 |2.901504e+02  |
+|X1          |8.645493e-03  |1.738032e-02  |
+|X2          |-1.168361e-02 |-1.323314e-03 |
+|X3LANDSLIDE |-1.130398e+02 |-1.527593e+01 |
+|X4          |-4.348301e-07 |6.305344e-07  |
+\end{Soutput}
+\end{Schunk}
+\end{columns}
+\end{frame}
+
+
+\subsection{Causal Effects}
+
+\begin{frame}{Relationship between Variables}
+\begin{itemize}
+\item \textbf{Number of Registered Voters (X1)}:
+An increase in the number of registered voters (with each additional unit) leads to an increase in Spoilt votes. For every one-unit increase in the number of registered voters, Spoilt votes are expected to increase by approximately 0.0130 units, which is a positive effect. The p-value for the effect of the number of registered voters on Spoilt votes is less than 0.05, indicating high statistical significance.
+\item \textbf{Number of Cast Votes (X2)}:
+An increase in the number of cast votes (with each additional unit) leads to a decrease in Spoilt votes. For every one-unit increase in the number of cast votes, Spoilt votes are expected to decrease by approximately 0.0065 units, indicating a negative effect. The p-value for the effect of the number of cast votes on Spoilt votes is less than 0.05, indicating statistical significance.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Relationship between Variables}
+\begin{itemize}
+\item \textbf{Landslide Pattern (X3)}: The coefficient for Voting Patterns landslide is \textbf{-64.1579}, which means the presence of a landslide voting pattern is associated with a decrease in Spoilt votes by 64.1579 units. The p-value for Voting Patterns landslide is 0.010, which is less than 0.05. This suggests that Voting Patterns landslide is a statistically significant predictor of Spoilt votes.
+\item \textbf{Allocation (X4)}: The coefficient for CDF Allocation is \textbf{9.785e-08}, which means for every one-unit increase in CDF Allocation, the Spoilt votes are expected to increase by 9.785e-08 units. However, the p-value for CDF Allocation is 0.718, which is greater than 0.05. This suggests that CDF Allocation is not a statistically significant predictor of 'Spoilt votes'.
+\end{itemize}
+\end{frame}
+
+
+
+\section{Conclusion}
+\subsection{Results}
+
+\begin{frame}{Key Insights}
+In summary, the analysis of factors influencing spoilt votes during the 2013 Kenyan presidential elections reveals the following key insights:
+\begin{itemize}
+\item \textbf{Number of Registered Voters (X1):} A higher number of registered voters is associated with an increase in spoilt votes, and this relationship is statistically significant.
+    
+\item \textbf{Number of Cast Votes (X2):} An increase in the number of cast votes leads to a decrease in spoilt votes, and this effect is also statistically significant.
+    
+\item \textbf{Landslide Pattern (X3):} The presence of a "Landslide" pattern is associated with fewer spoilt votes, with statistical significance.
+    
+\item \textbf{Allocation (X4):} Spoilt votes do not significantly affect Constituency development funds allocation.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Assumptions and Credibility}
+It is important to note that this investigation is based on the underlying assumptions of the OLS linear estimator. The findings unveil instances where these assumptions are not valid, which affects the credibility of results. More comprehensive data could help improve the reliability of the analysis as shown below:
+\end{frame}
+
+
+\section{Concluding remarks}
+\subsection{Assumptions}
+
+\begin{frame}{Assumptions of Linear Regression Analysis}
+\begin{itemize}
+\item The mean of the errors is approximately \textbf{2.6673e-08}, which is very close to zero, suggesting that the assumption of zero mean errors is met.
+\item The Durbin-Watson statistic is \textbf{1.891}, close to 2, indicating no significant autocorrelation in the residuals, and the assumption of independent errors is met.
+\item The residuals versus predicted values plot and tests are shown below, to show whether the assumption of homoscedasticity is met.
+\item The  Q-Q plot of residuals and tests is shown below to try and indicate a normal distribution.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Homoscedasticity}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-016}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{QQ Normality Plot}
+\begin{columns}[c] % Center the columns
+\column{.8\textwidth} % Left column
+\includegraphics{Votesppt-017}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Homoscedasticity Test}
+\begin{itemize}
+\item We start by testing the assumption of homoscedasticity (equal variances of residuals).
+\item The Breusch-Pagan test is commonly used for this purpose.
+\item The Breusch-Pagan test p-value:\textbf{0.0001386791}
+\item If p-value is below a significance level (e.g., 0.05), the assumption of homoscedasticity is violated.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Normality Test}
+\begin{itemize}
+\item Next, we test the normality of residuals.
+\item The Shapiro-Wilk test can be used for this purpose.
+\item The Shapiro-Wilk test p-value: \textbf{0.0000000001676222}
+\item If p-value is below a significance level (e.g., 0.05), the assumption of normality is violated.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Model Tests and Statistics}
+\begin{itemize}
+\item \textbf{Omnibus Test:} 77.318
+  \begin{itemize}
+  \item \textbf{Interpretation:} The Omnibus test assesses the overall goodness of fit of the model. In this case, a value of 77.318 suggests that the model fits the data well.
+  \end{itemize}
+    
+\item \textbf{Jarque-Bera Test:} 205.740
+  \begin{itemize}
+  \item \textbf{Skew:} 1.225
+  \item \textbf{Kurtosis:} 6.329
+  \item \textbf{Prob(JB):} 2.11e-45
+  \item \textbf{Interpretation:} The Jarque-Bera test checks for normality of residuals. A high test statistic (205.740) and a very low p-value (2.11e-45) indicate that the residuals may not be normally distributed. Additionally, skew (1.225) and kurtosis (6.329) values can suggest non-normality and potential outliers.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Model Tests and Statistics}
+\begin{itemize}
+\item \textbf{Condition Number:} 7.04e+09 
+  \begin{itemize}
+  \item \textbf{Interpretation:} The condition number assesses multicollinearity in the model. A very high condition number (7.04e+09) may indicate a strong multicollinearity issue among predictor variables.
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Assumptions and Their Confirmations (Part 1)}
+\begin{itemize}
+\item \textbf{Zero Mean Errors:}
+   \begin{itemize}
+   \item \textbf{Assumption:} The errors have a mean value of zero.
+   \item \textbf{Confirmation:} The mean of the errors is very close to zero suggesting that this assumption is met..
+   \end{itemize}
+
+\item \textbf{Independent Errors (Durbin-Watson Test):}
+   \begin{itemize}
+   \item \textbf{Assumption:} The errors are independent with no autocorrelation.
+   \item \textbf{Confirmation:} The Durbin-Watson statistic is close to 2, indicating no significant autocorrelation.
+   \end{itemize}
+
+\item \textbf{Homoscedasticity (Constant Spread in Residuals):}
+   \begin{itemize}
+   \item \textbf{Assumption:} The spread of errors is consistent across different levels of predictor variables.
+   \item \textbf{Confirmation:} This assumption is violated as there's a non-constant spread in residuals as shown in the test and the plot.
+   \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Assumptions and Their Confirmations (Part 2)}
+\begin{itemize}
+\item \textbf{Normality of Residuals (Jarque-Bera Test):}
+   \begin{itemize}
+   \item \textbf{Assumption:} The errors follow a normal distribution.
+   \item \textbf{Confirmation:} The Jarque-Bera test results indicate non-normality of residuals as shown by the test and plot.
+   \end{itemize}
+
+\item \textbf{Multicollinearity (Condition Number):}
+   \begin{itemize}
+   \item \textbf{Assumption:} Predictor variables are not strongly correlated.
+   \item \textbf{Confirmation:} A high condition number suggests strong multicollinearity
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\section{Reference List}
+\subsection{References}
+
+\begin{frame}{References}
+  \leftskip 0.1in
+  \parindent -0.1in
+  Meyer, M. (2002). \textit{Uncounted Votes: Does Voting Equipment Matter? Chance methods}, 15(4), 33-38 Publications.
+\end{frame}
+
+\end{document}
