@@ -393,7 +393,7 @@ pairs(data[,nix], pch = 1, col= "darkblue")
 \subsection{Correlation Coefficients}
 
 As shown in the scatter plots, some variables are related directionally either positively or negatively. The correlation coefficients indicate the strength and direction of these relationships. Positive values suggest a direct (positive) relationship, where both variables tend to move in the same direction. Negative values indicate an inverse (negative) relationship, where the variables tend to move in opposite directions. The closer the correlation coefficient is to -1 or 1, the stronger the relationship.
-
+\newpage
 \subsubsection{Matrix}
 <<echo=FALSE>>=
 numeric_variables <- data[, c("Spoilt", "Registered", "Cast", "Pattern", "Allocation")]
@@ -428,6 +428,7 @@ kable(round(correlation_matrix, 4), format = "markdown", col.names = colnames(co
 \section{Exploratory Analysis}
 \subsection{Linear Regression}
 
+
 The \texttt{lm} function provides a comprehensive analysis of the relationship between the response variable, 'Spoilt votes' (Y), and the predictor variables: 'Registered Voters' (X1), 'Cast Votes' (X2), 'Voting Patterns' (X3), and 'CDF Allocation' (X4).
 
 \begin{table}[htb] % Use [htb] to control placement
@@ -451,7 +452,7 @@ The \texttt{lm} function provides a comprehensive analysis of the relationship b
   \caption{Variable Descriptions}
 \end{table}
 
-
+\newpage
 \[
 \bm{Y} = \bm{\beta_0} + \bm{\beta_1}X_1 + \bm{\beta_2}X_2 + \bm{\beta_3}X_3 + \bm{\beta_4}X_4 + \bm{\epsilon}
 \]
@@ -642,8 +643,11 @@ qqline(standardized_residuals)
 \section{References}
   \leftskip 0.1in
   \parindent -0.1in
-  Meyer, M. (2002). \textit{Uncounted Votes: Does Voting Equipment Matter? Chance methods}, 15(4), 33-38 Publications.
- 
+1. R Core Team (2019). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.\\
+ 2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686 \\
+3. Meyer, M. (2002). Uncounted Votes: Does Voting Equipment Matter? Chance Methods, 15(4), 33-38.\\
+4.National Government Constituencies Development Fund (NGCDF). (2013-2017). Title of the Webpage. https://ngcdf.go.ke/allocations/. Retrieved October 23, 2023.\\
+ 5. The Electoral Knowledge Network. (2013). Title of the Webpage. https://aceproject.org/ero-en/regions/africa/KE/kenya-constituency-summary-of-voter-turnout-the. Retrieved October 2023.
 
 \end{document}
 
