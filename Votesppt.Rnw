@@ -736,7 +736,11 @@ qqline(standardized_residuals)
 \begin{frame}{References}
   \leftskip 0.1in
   \parindent -0.1in
-  Meyer, M. (2002). Uncounted Votes: Does Voting Equipment Matter? Chance Methods, 15(4), 33-38.
+  1. R Core Team (2019). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.\\
+ 2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686 \\
+3. Meyer, M. (2002). Uncounted Votes: Does Voting Equipment Matter? Chance Methods, 15(4), 33-38.\\
+ 4. National Government Constituencies Development Fund (NGCDF). (2013-2017). Title of the Webpage. https://ngcdf.go.ke/allocations/. Retrieved October 23, 2023.\\
+ 5. The Electoral Knowledge Network. (2013). Title of the Webpage. https://aceproject.org/ero-en/regions/africa/KE/kenya-constituency-summary-of-voter-turnout-the. Retrieved October 2023.
 \end{frame}
 
 \end{document}
