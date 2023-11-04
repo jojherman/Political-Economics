@@ -172,6 +172,9 @@ library(tinytex)
 library(xtable)
 library(lmtest)
 library(knitr)
+library(devtools)
+library(rpubs)
+
 Raw3 <- read_excel("C:/Users/githi/Desktop/Raw3.xlsx")
 View(Raw3)
 data <- Raw3
@@ -650,4 +653,3 @@ qqline(standardized_residuals)
  5. The Electoral Knowledge Network. (2013). Title of the Webpage. https://aceproject.org/ero-en/regions/africa/KE/kenya-constituency-summary-of-voter-turnout-the. Retrieved October 2023.
 
 \end{document}
-
