@@ -12,5 +12,7 @@ Some main work inlcude analysing elections results
 Contact me for further explanations and collaborations.
 
 Best Regards
+
 Herman Mwangi
+
 githinjiherman@gmail.com
